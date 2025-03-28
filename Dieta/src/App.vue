@@ -10,9 +10,11 @@ import Dia from "@/components/Dia.vue";
     <header class="container">
         <Navegacion />
     </header>
+
     <NuevaComida/>
 
     <Calendario/>
+
 </template>
 
 <style scoped>

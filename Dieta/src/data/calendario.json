@@ -1,28 +1,28 @@
 [
 
     {
-        "fecha": "20250328",
+        "fecha": "2025-03-28",
         "comidas": [
             {
                 "userId": 1,
-                "comidaId": "202503283",
+                "comidaId": "2025-03-28-5",
                 "nombre": "Pizza",
                 "orden": 5
             },
             {
                 "userId": 1,
-                "comidaId": "202503283",
+                "comidaId": "2025-03-28-3",
                 "nombre": "Pure de calabaza",
                 "orden": 3
             }
         ]
     },
     {
-        "fecha": "20250328",
+        "fecha": "2025-03-29",
         "comidas": [
             {
                 "userId": 1,
-                "comidaId": "202503283",
+                "comidaId": "2025-03-29-3",
                 "nombre": "Lentejas",
                 "orden": 3
             }
