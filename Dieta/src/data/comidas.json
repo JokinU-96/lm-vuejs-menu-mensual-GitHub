@@ -1,0 +1,31 @@
+[
+
+    {
+        "fecha": "20250328",
+        "comidas": [
+            {
+                "userId": 1,
+                "comidaId": "202503283",
+                "nombre": "Pizza",
+                "orden": 5
+            },
+            {
+                "userId": 1,
+                "comidaId": "202503283",
+                "nombre": "Pure de calabaza",
+                "orden": 3
+            }
+        ]
+    },
+    {
+        "fecha": "20250328",
+        "comidas": [
+            {
+                "userId": 1,
+                "comidaId": "202503283",
+                "nombre": "Lentejas",
+                "orden": 3
+            }
+        ]
+    }
+]
