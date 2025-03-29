@@ -2,6 +2,7 @@
 
 import {computed, ref} from "vue";
 import {useCalendario} from "@/stores/Calendario.js";
+import {parseISO, format} from "date-fns"
 
 const store = useCalendario();
 
@@ -11,13 +12,19 @@ const orden = ref('')
 
 
 const guardar = () => {
+    console.log(fechaComida.value)
+    const fecha = parseISO(fechaComida.value);
+    const anyo = format(fecha, 'yyyy');
+    const mes = format(fecha, 'MM');
+    const dia = format(fecha, 'dd')
+
     const nuevaComida = {
         userId: 1, //Cada día podrá haber más de una comida, con un máximo de 5.
         comidaId: fechaComida.value.toString().concat("-").concat(orden.value.toString()), //La intención que tengo es encadenar el index de cada comida con su fecha.
         nombre: nombre.value, //Nombre del plato.
         orden: orden.value //Indica si es desayuno, almuerzo, comida, merienda o cena (del 1 al 5)
     }
-    store.agregar(nuevaComida, fechaComida);
+    store.agregar(nuevaComida, fechaComida.value.toString(), anyo, mes.toString(), dia);
     limpiar();
 }
 
@@ -30,7 +37,7 @@ const limpiable = computed(() => {
 });
 
 function limpiar() {
-    fecha.value = '';
+    fechaComida.value = '';
     nombre.value = '';
     orden.value = 0;
 }
@@ -42,7 +49,7 @@ function limpiar() {
     <form class="row gy-2 gx-3 align-items-center justify-content-center mt-5">
         <div class="col-auto">
             <label class="visually-hidden" for="autoSizingInput">Fecha</label>
-            <input type="date" class="form-control" id="autoSizingInput" v-model="fechaComida" required>
+            <input type="date" class="form-control" id="autoSizingInput" format="yyyy-MM-dd" v-model="fechaComida" required>
         </div>
         <div class="col-auto">
             <label class="visually-hidden" for="autoSizingInputGroup">Comida: </label>

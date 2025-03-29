@@ -12,8 +12,9 @@ import Dia from "@/components/Dia.vue";
     </header>
 
     <NuevaComida/>
-
-    <Calendario/>
+    <div class="container">
+        <Calendario/>
+    </div>
 
 </template>
 
