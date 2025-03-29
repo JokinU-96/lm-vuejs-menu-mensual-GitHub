@@ -1,63 +1,52 @@
-import { defineStore } from 'pinia';
-import { computed, ref } from 'vue';
+import {defineStore} from 'pinia';
+import {computed, ref} from 'vue';
 import datos from '@/data/calendario.json';
-import {getDate} from "date-fns";
+import {format, getDate} from "date-fns";
+import calendario from "@/components/Calendario.vue";
 
 export const useCalendario = defineStore('Comidas', () => {
     const calendario = ref(JSON.parse(localStorage.getItem('dias')) ?? datos);
 
-    const numDias = computed(() => datos.value.length);
-    const siguienteId = computed(() => datos.value.length + 1);
 
-    function visualizarCalendario(){
+    function visualizarCalendario() {
+
+        const fechaInicio = new Date();
+        fechaInicio.setDate(fechaInicio.getDate() - fechaInicio.getDate());
+
         const fechaActual = new Date();
+        fechaActual.getMonth()
 
-        console.log(fechaActual.getDate() + ' es el número del día de hoy.')
-
-        let intervalo = new Date();
-        intervalo.setDate(intervalo.getDate() - 10);
-
-        console.log(intervalo.getDate() + ' hace 10 días')
-
-        for (intervalo; fechaActual.getDate() > intervalo.getDate(); (intervalo.setDate(intervalo.getDate() + 1))){
+        let offset = 35 - fechaActual.getDate() //7 dias x 4 semanas = 35 dias por hoja del calendario
 
 
-            const anyo = intervalo.getFullYear().toString()
-            const mes = (intervalo.getMonth() + 1).toString().padStart(2, '0')
-            const dia = intervalo.getDate().toString().padStart(2, '0')
-
-
-            const fechaFormateada = anyo.concat('-').concat(mes).concat('-').concat(dia)
-
-            const undia = {
-                "fecha": fechaFormateada,
-                "anyo": anyo,
-                "mes": mesAletras(mes),
-                "dia": dia,
-                "comidas": []
+        for (fechaInicio.getDate(); fechaActual.getDate() >= fechaInicio.getDate(); fechaInicio.setDate(fechaInicio.getDate() + 1)) {
+            if (existeFecha(formatearFecha(fechaInicio), calendario) || existeFecha(formatearFecha(fechaInicio), calendario) === 0) {
+                //console.log(fechaInicio + ' Esta fecha se almacenó previamente.')
+            } else {
+                calendario.value.push(anyadirDia(fechaInicio));
             }
-
-            calendario.value.push(undia)
         }
 
+        for (let i = 1; offset > i; i++) {
+            fechaActual.setDate(fechaActual.getDate() + 1)
+            if (!existeFecha(formatearFecha(fechaActual), calendario)) {
+                calendario.value.push(anyadirDia(fechaActual))
+            }
+        }
+
+        console.log(calendario.value.sort((a, b) => a.fecha - b.fecha));
+
+        localStorage.setItem('dias', JSON.stringify(calendario.value));
     }
 
-    function agregar(nuevaComida, fechaComida, anyo, mes, dia){
+    function agregar(nuevaComida, fechaComida, anyo, mes, dia) {
 
         //console.log(fechaComida);
         //console.log(nuevaComida);
 
-        let encontrado = false;
-
-        for (let i = 0; i < calendario.value.length; i++){
-            //console.log(calendario.value[i].fecha);
-            if (calendario.value[i].fecha === fechaComida){
-                calendario.value[i].comidas.push(nuevaComida);
-                encontrado = true;
-            }
-        }
-
-        if (!encontrado){
+        if (existeFecha(fechaComida, calendario)) {
+            calendario.value[existeFecha(fechaComida, calendario)].comidas.push(nuevaComida)
+        } else {
             const nuevoDia = {
                 "fecha": fechaComida,
                 "anyo": anyo,
@@ -65,17 +54,42 @@ export const useCalendario = defineStore('Comidas', () => {
                 "dia": dia,
                 "comidas": [nuevaComida]
             }
-            //console.log(nuevoDia)
+            console.log(nuevoDia)
             calendario.value.push(nuevoDia)
         }
 
         localStorage.setItem('dias', JSON.stringify(calendario.value));
     }
 
-    return { calendario, siguienteId, numDias, agregar, visualizarCalendario };
+    function formatearFecha(fecha) {
+
+        const anyo = fecha.getFullYear().toString()
+        const mes = (fecha.getMonth() + 1).toString().padStart(2, '0')
+        const dia = fecha.getDate().toString().padStart(2, '0')
+
+        return anyo.concat(mes).concat(dia)
+
+    }
+
+    function anyadirDia(nuevafecha) {
+
+        const anyo = nuevafecha.getFullYear().toString()
+        const mes = (nuevafecha.getMonth() + 1).toString().padStart(2, '0')
+        const dia = nuevafecha.getDate().toString().padStart(2, '0')
+
+        return {
+            "fecha": formatearFecha(nuevafecha),
+            "anyo": anyo,
+            "mes": mesAletras(mes),
+            "dia": dia,
+            "comidas": []
+        }
+    }
+
+    return {calendario, agregar, visualizarCalendario, formatearFecha};
 })
 
-function mesAletras(mes){
+function mesAletras(mes) {
     if (mes === "01") {
         mes = "Enero";
     } else if (mes === "02") {
@@ -104,4 +118,19 @@ function mesAletras(mes){
         mes = "n/a";
     }
     return mes
+}
+
+
+function existeFecha(fechaPerdidaFormateada, calendario) {
+    for (let i = 0; i < calendario.value.length; i++) {
+        if (calendario.value[i].fecha === fechaPerdidaFormateada) {
+            //console.log(fechaPerdidaFormateada)
+            return i;
+        }
+    }
+    return false;
+}
+
+function compararNumeros(a, b) {
+    a - b;
 }

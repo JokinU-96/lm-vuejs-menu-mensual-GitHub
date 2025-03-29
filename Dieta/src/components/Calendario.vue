@@ -9,7 +9,7 @@ store.visualizarCalendario()
 </script>
 
 <template>
-    <div class="row mt-5">
+    <div class="row mt-5 justify-content-center">
         <Dia v-for="dia in store.calendario" :key="dia.fecha" :dia="dia"></Dia>
     </div>
 </template>

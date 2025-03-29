@@ -12,19 +12,18 @@ const orden = ref('')
 
 
 const guardar = () => {
-    console.log(fechaComida.value)
-    const fecha = parseISO(fechaComida.value);
+    const fecha = parseISO(fechaComida.value).toString();
     const anyo = format(fecha, 'yyyy');
     const mes = format(fecha, 'MM');
-    const dia = format(fecha, 'dd')
+    const dia = format(fecha, 'dd');
 
     const nuevaComida = {
         userId: 1, //Cada día podrá haber más de una comida, con un máximo de 5.
-        comidaId: fechaComida.value.toString().concat("-").concat(orden.value.toString()), //La intención que tengo es encadenar el index de cada comida con su fecha.
+        comidaId: fechaComida.value.toString().concat(orden.value.toString()), //La intención que tengo es encadenar el index de cada comida con su fecha.
         nombre: nombre.value, //Nombre del plato.
         orden: orden.value //Indica si es desayuno, almuerzo, comida, merienda o cena (del 1 al 5)
     }
-    store.agregar(nuevaComida, fechaComida.value.toString(), anyo, mes.toString(), dia);
+    store.agregar(nuevaComida, fechaComida.value.toString().replaceAll("-",""), anyo, mes.toString(), dia);
     limpiar();
 }
 

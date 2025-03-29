@@ -1,27 +1,40 @@
 [
-
     {
-        "fecha": "2025-03-28",
+        "fecha": "20250327",
+        "anyo": "2025",
+        "mes": "Marzo",
+        "dia": "27",
+        "comidas": [
+            {
+                "userId": 1,
+                "comidaId": "202503273",
+                "nombre": "Patatas fritas",
+                "orden": 3
+            }
+        ]
+    },
+    {
+        "fecha": "20250328",
         "anyo": "2025",
         "mes": "Marzo",
         "dia": "28",
         "comidas": [
             {
                 "userId": 1,
-                "comidaId": "2025-03-28-5",
+                "comidaId": "202503285",
                 "nombre": "Pizza",
                 "orden": 5
             },
             {
                 "userId": 1,
-                "comidaId": "2025-03-28-3",
+                "comidaId": "202503283",
                 "nombre": "Pure de calabaza",
                 "orden": 3
             }
         ]
     },
     {
-        "fecha": "2025-03-29",
+        "fecha": "20250329",
         "anyo": "2025",
         "mes": "Marzo",
         "dia": "29",
