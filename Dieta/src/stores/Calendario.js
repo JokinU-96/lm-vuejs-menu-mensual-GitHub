@@ -1,36 +1,48 @@
 import {defineStore} from 'pinia';
 import {computed, ref} from 'vue';
 import datos from '@/data/calendario.json';
-import {format, getDate} from "date-fns";
+import {format, getDate, setDate} from "date-fns";
 import calendario from "@/components/Calendario.vue";
 
 export const useCalendario = defineStore('Comidas', () => {
     const calendario = ref(JSON.parse(localStorage.getItem('dias')) ?? datos);
 
+    var fechaInicioForm = '';
+    var fechaFinalForm = '';
 
-    function visualizarCalendario() {
+    function visualizarCalendario(fecha) {
 
-        const fechaInicio = new Date();
-        fechaInicio.setDate(fechaInicio.getDate() - fechaInicio.getDate());
+        console.log('La fecha pivote es: ' + formatearFecha(fecha));
 
-        const fechaActual = new Date();
-        fechaActual.getMonth()
-
-        let offset = 35 - fechaActual.getDate() //7 dias x 4 semanas = 35 dias por hoja del calendario
+        let fechaInicio = new Date(fecha);
+        fechaInicio.setDate(fecha.getDate() - fecha.getDate());
+        fechaInicio.setDate(fechaInicio.getDate() + 3);
 
 
-        for (fechaInicio.getDate(); fechaActual.getDate() >= fechaInicio.getDate(); fechaInicio.setDate(fechaInicio.getDate() + 1)) {
-            if (existeFecha(formatearFecha(fechaInicio), calendario) || existeFecha(formatearFecha(fechaInicio), calendario) === 0) {
+        let offset = 3 + 35 - fecha.getDate() //7 dias x 4 semanas = 35 dias por hoja del calendario
+
+        let fechaFinal = new Date(fecha);
+        fechaFinal.setDate(fechaFinal.getDate() + offset)
+
+        console.log('La fecha de inicio es: ' + formatearFecha(fechaInicio))
+        fechaInicioForm = formatearFecha(fechaInicio)
+        console.log('La fecha final es: ' + formatearFecha(fechaFinal))
+        fechaFinalForm = formatearFecha(fechaFinal)
+
+        let i = new Date()
+
+        for (i.setDate(fechaInicio.getDate()); fecha.getDate() >= i.getDate(); i.setDate(i.getDate() + 1)) {
+            if (existeFecha(formatearFecha(i), calendario) || existeFecha(formatearFecha(i), calendario) === 0) {
                 //console.log(fechaInicio + ' Esta fecha se almacenó previamente.')
             } else {
-                calendario.value.push(anyadirDia(fechaInicio));
+                calendario.value.push(anyadirDia(i));
             }
         }
 
         for (let i = 1; offset > i; i++) {
-            fechaActual.setDate(fechaActual.getDate() + 1)
-            if (!existeFecha(formatearFecha(fechaActual), calendario)) {
-                calendario.value.push(anyadirDia(fechaActual))
+            fecha.setDate(fecha.getDate() + 1)
+            if (!existeFecha(formatearFecha(fecha), calendario)) {
+                calendario.value.push(anyadirDia(fecha))
             }
         }
 
@@ -68,7 +80,7 @@ export const useCalendario = defineStore('Comidas', () => {
         const dia = fecha.getDate().toString().padStart(2, '0')
 
         return anyo.concat(mes).concat(dia)
-
+        //recibe una fecha en formato fecha y devuelve 20250325
     }
 
     function anyadirDia(nuevafecha) {
@@ -86,7 +98,7 @@ export const useCalendario = defineStore('Comidas', () => {
         }
     }
 
-    return {calendario, agregar, visualizarCalendario, formatearFecha};
+    return {agregar, visualizarCalendario, formatearFecha, fechaInicioForm, fechaFinalForm, calendario};
 })
 
 function mesAletras(mes) {

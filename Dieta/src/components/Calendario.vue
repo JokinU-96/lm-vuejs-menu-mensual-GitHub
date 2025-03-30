@@ -1,10 +1,13 @@
 <script setup>
 import Dia from "@/components/Dia.vue";
 import { useCalendario } from '@/stores/Calendario'
+import {ref} from "vue";
 
 const store = useCalendario()
 
-store.visualizarCalendario()
+const fecha = new Date()
+
+store.visualizarCalendario(fecha)
 
 </script>
 
