@@ -10,35 +10,47 @@ export const useCalendario = defineStore('Comidas', () => {
     var fechaInicioForm = '';
     var fechaFinalForm = '';
 
-    function visualizarCalendario(fecha) {
-
-        console.log('La fecha pivote es: ' + formatearFecha(fecha));
-
+    function calcularFechaIni(fecha){
         let fechaInicio = new Date(fecha);
         fechaInicio.setDate(fecha.getDate() - fecha.getDate());
         fechaInicio.setDate(fechaInicio.getDate() + 3);
 
+        //console.log('La fecha de inicio es: ' + formatearFecha(fechaInicio))
+        return fechaInicio
+    }
 
+    function calcularFechaFin(fecha){
         let offset = 3 + 35 - fecha.getDate() //7 dias x 4 semanas = 35 dias por hoja del calendario
-
         let fechaFinal = new Date(fecha);
         fechaFinal.setDate(fechaFinal.getDate() + offset)
 
-        console.log('La fecha de inicio es: ' + formatearFecha(fechaInicio))
-        fechaInicioForm = formatearFecha(fechaInicio)
-        console.log('La fecha final es: ' + formatearFecha(fechaFinal))
-        fechaFinalForm = formatearFecha(fechaFinal)
+        //console.log('La fecha final es: ' + formatearFecha(fechaFinal))
+        return fechaFinal
+    }
 
-        let i = new Date()
+    function visualizarCalendario(fecha) {
 
-        for (i.setDate(fechaInicio.getDate()); fecha.getDate() >= i.getDate(); i.setDate(i.getDate() + 1)) {
+        console.log('La fecha pivote es: ' + formatearFecha(fecha));
+
+        let i = new Date(calcularFechaIni(fecha))
+        let end = new Date(calcularFechaFin(fecha))
+
+        console.log('La fecha de inicio es: ' + formatearFecha(i))
+        console.log('La fecha final es: ' + formatearFecha(end))
+
+        for (i;
+             end.getDate() >= i.getDate();
+             i.setDate(i.getDate() + 1)
+        ){
+            console.log(formatearFecha(i));
             if (existeFecha(formatearFecha(i), calendario) || existeFecha(formatearFecha(i), calendario) === 0) {
-                //console.log(fechaInicio + ' Esta fecha se almacenó previamente.')
+                console.log(formatearFecha(i) + ' Esta fecha se almacenó previamente.')
             } else {
                 calendario.value.push(anyadirDia(i));
             }
         }
 
+        let offset = 3 + 35 - fecha.getDate()
         for (let i = 1; offset > i; i++) {
             fecha.setDate(fecha.getDate() + 1)
             if (!existeFecha(formatearFecha(fecha), calendario)) {
@@ -98,7 +110,7 @@ export const useCalendario = defineStore('Comidas', () => {
         }
     }
 
-    return {agregar, visualizarCalendario, formatearFecha, fechaInicioForm, fechaFinalForm, calendario};
+    return {agregar, visualizarCalendario, formatearFecha, calcularFechaFin, calcularFechaIni, calendario};
 })
 
 function mesAletras(mes) {

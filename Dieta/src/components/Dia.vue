@@ -7,12 +7,9 @@ const store = useCalendario();
 defineProps({
     dia: Object,
 })
-
+const fecha = new Date();
 
 const hoy = store.formatearFecha(new Date()).toString().replaceAll("-", "");
-
-console.log(store.fechaInicioForm + ' Esta es la fecha de inicio');
-console.log(store.fechaFinalForm + ' Esta es la fecha final');
 
 </script>
 
@@ -29,7 +26,7 @@ console.log(store.fechaFinalForm + ' Esta es la fecha final');
             </ul>
         </div>
     </div>
-    <div class="card col-2 px-0 mx-1 my-1 d-none" style="width:13%;" v-else-if="dia.fecha < store.fechaInicioForm || dia.fecha > store.fechaFinalForm">
+    <div class="card col-2 px-0 mx-1 my-1 d-none" style="width:13%;" v-else-if="dia.fecha < store.formatearFecha(store.calcularFechaIni(fecha)) || dia.fecha > store.formatearFecha(store.calcularFechaFin(fecha))">
         <div class="card-header text-center">
             <small class="text-muted">{{ dia.anyo }} {{ dia.mes }}</small>
         </div>
