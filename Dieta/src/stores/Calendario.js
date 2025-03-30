@@ -7,8 +7,7 @@ import calendario from "@/components/Calendario.vue";
 export const useCalendario = defineStore('Comidas', () => {
     const calendario = ref(JSON.parse(localStorage.getItem('dias')) ?? datos);
 
-    var fechaInicioForm = '';
-    var fechaFinalForm = '';
+    const fechaPivote = new Date();
 
     function calcularFechaIni(fecha){
         let fechaInicio = new Date(fecha);
@@ -20,7 +19,9 @@ export const useCalendario = defineStore('Comidas', () => {
     }
 
     function calcularFechaFin(fecha){
-        let offset = 3 + 35 - fecha.getDate() //7 dias x 4 semanas = 35 dias por hoja del calendario
+
+        let offset = 3 + 35 - fecha.getDate() - 1 //7 dias x 4 semanas = 35 dias por hoja del calendario
+
         let fechaFinal = new Date(fecha);
         fechaFinal.setDate(fechaFinal.getDate() + offset)
 
@@ -35,22 +36,20 @@ export const useCalendario = defineStore('Comidas', () => {
         let i = new Date(calcularFechaIni(fecha))
         let end = new Date(calcularFechaFin(fecha))
 
-        console.log('La fecha de inicio es: ' + formatearFecha(i))
-        console.log('La fecha final es: ' + formatearFecha(end))
+        console.log('La fecha de inicio es: ' + formatearFecha(i))//ej. 20250303
+        console.log('La fecha final es: ' + formatearFecha(end))//ej. 20250407
 
-        for (i;
-             end.getDate() >= i.getDate();
-             i.setDate(i.getDate() + 1)
-        ){
-            console.log(formatearFecha(i));
+        for (i; end >= i; i.setDate(i.getDate() + 1)){
+            //console.log(formatearFecha(i));
             if (existeFecha(formatearFecha(i), calendario) || existeFecha(formatearFecha(i), calendario) === 0) {
-                console.log(formatearFecha(i) + ' Esta fecha se almacenó previamente.')
+                //console.log(formatearFecha(i) + ' Esta fecha se almacenó previamente.')
             } else {
                 calendario.value.push(anyadirDia(i));
             }
         }
 
         let offset = 3 + 35 - fecha.getDate()
+
         for (let i = 1; offset > i; i++) {
             fecha.setDate(fecha.getDate() + 1)
             if (!existeFecha(formatearFecha(fecha), calendario)) {
@@ -58,7 +57,9 @@ export const useCalendario = defineStore('Comidas', () => {
             }
         }
 
-        console.log(calendario.value.sort((a, b) => a.fecha - b.fecha));
+        //console.log(calendario.value.sort((a, b) => a.fecha - b.fecha));
+
+        calendario.value.sort((a,b) => a.fecha - b.fecha);//ordenar elementos según la fecha.
 
         localStorage.setItem('dias', JSON.stringify(calendario.value));
     }
@@ -78,7 +79,7 @@ export const useCalendario = defineStore('Comidas', () => {
                 "dia": dia,
                 "comidas": [nuevaComida]
             }
-            console.log(nuevoDia)
+            //console.log(nuevoDia)
             calendario.value.push(nuevoDia)
         }
 
@@ -109,8 +110,14 @@ export const useCalendario = defineStore('Comidas', () => {
             "comidas": []
         }
     }
+    function siguienteMes(fechaPivote){
+        fechaPivote.setDate(fechaPivote.getDate() + 28)//7 * 4 = 28 dias o 4 semanas
+        let fechaSiguiente = new Date(fechaPivote)
+        //console.log('La fecha pivote nueva es:' + formatearFecha(fechaSiguiente))
+        visualizarCalendario(fechaSiguiente)//pasando una nueva fecha no altero la fecha de pivote.
+    }
 
-    return {agregar, visualizarCalendario, formatearFecha, calcularFechaFin, calcularFechaIni, calendario};
+    return {agregar, visualizarCalendario, formatearFecha, calcularFechaFin, calcularFechaIni, calendario, siguienteMes, fechaPivote};
 })
 
 function mesAletras(mes) {
@@ -153,8 +160,4 @@ function existeFecha(fechaPerdidaFormateada, calendario) {
         }
     }
     return false;
-}
-
-function compararNumeros(a, b) {
-    a - b;
 }
