@@ -4,13 +4,8 @@ import {ref} from "vue";
 
 const store = useCalendario()
 
-const fecha = new Date()
-
-function siguienteMes(){
-    //console.log(fecha.getDate())
-    fecha.setDate(fecha.getDate() + 28)//7 * 4 = 28 dias o 4 semanas
-    console.log(store.formatearFecha(fecha))
-    store.visualizarCalendario(fecha)
+function pasarHoja(){
+    store.siguienteMes(store.fechaPivote)
 }
 
 </script>
@@ -20,7 +15,7 @@ function siguienteMes(){
         <div class="btn-group" role="group" aria-label="Basic example">
             <button type="button" class="btn btn-primary">Retroceder</button>
             <button type="button" class="btn btn-outline-primary">Nueva comida</button>
-            <button type="button" class="btn btn-primary" @click="siguienteMes()">Avanzar</button>
+            <button type="button" class="btn btn-primary" @click="pasarHoja()">Avanzar</button>
         </div>
     </nav>
 </template>
