@@ -12,15 +12,15 @@ export const useCalendario = defineStore('Comidas', () => {
     function calcularFechaIni(fecha){
         let fechaInicio = new Date(fecha);
         fechaInicio.setDate(fecha.getDate() - fecha.getDate());
-        fechaInicio.setDate(fechaInicio.getDate() + 3);
-
+        fechaInicio.setDate(fechaInicio.getDate() + fechaInicio.getDay() - 1);
+        //console.log(fechaInicio.getDay().toString())
         //console.log('La fecha de inicio es: ' + formatearFecha(fechaInicio))
         return fechaInicio
     }
 
     function calcularFechaFin(fecha){
 
-        let offset = 3 + 35 - fecha.getDate() - 1 //7 dias x 4 semanas = 35 dias por hoja del calendario
+        let offset = 35 - fecha.getDate() - 1 //7 dias x 4 semanas = 35 dias por hoja del calendario
 
         let fechaFinal = new Date(fecha);
         fechaFinal.setDate(fechaFinal.getDate() + offset)
@@ -48,7 +48,7 @@ export const useCalendario = defineStore('Comidas', () => {
             }
         }
 
-        let offset = 3 + 35 - fecha.getDate()
+        let offset = 35 - fecha.getDate()
 
         for (let i = 1; offset > i; i++) {
             fecha.setDate(fecha.getDate() + 1)
@@ -116,8 +116,14 @@ export const useCalendario = defineStore('Comidas', () => {
         //console.log('La fecha pivote nueva es:' + formatearFecha(fechaSiguiente))
         visualizarCalendario(fechaSiguiente)//pasando una nueva fecha no altero la fecha de pivote.
     }
+    function anteriorMes(fechaPivote){
+        fechaPivote.setDate(fechaPivote.getDate() - 28)//7 * 4 = 28 dias o 4 semanas
+        let fechaSiguiente = new Date(fechaPivote)
+        //console.log('La fecha pivote nueva es:' + formatearFecha(fechaSiguiente))
+        visualizarCalendario(fechaSiguiente)//pasando una nueva fecha no altero la fecha de pivote.
+    }
 
-    return {agregar, visualizarCalendario, formatearFecha, calcularFechaFin, calcularFechaIni, calendario, siguienteMes, fechaPivote};
+    return {agregar, visualizarCalendario, formatearFecha, calcularFechaFin, calcularFechaIni, calendario, siguienteMes, anteriorMes, fechaPivote};
 })
 
 function mesAletras(mes) {

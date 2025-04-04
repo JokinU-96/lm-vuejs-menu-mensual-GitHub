@@ -10,8 +10,8 @@ defineProps({
 })
 
 const hoy = store.formatearFecha(new Date()).toString().replaceAll("-", "");
-console.log('Esta es la fecha de inicio para las card: ' + store.formatearFecha(store.calcularFechaIni(store.fechaPivote)))
-console.log('Esta es la fecha de final para las card: ' + store.formatearFecha(store.calcularFechaFin(store.fechaPivote)))
+//console.log('Esta es la fecha de inicio para las card: ' + store.formatearFecha(store.calcularFechaIni(store.fechaPivote)))
+//console.log('Esta es la fecha de final para las card: ' + store.formatearFecha(store.calcularFechaFin(store.fechaPivote)))
 
 </script>
 

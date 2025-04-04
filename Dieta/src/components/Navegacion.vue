@@ -4,8 +4,12 @@ import {ref} from "vue";
 
 const store = useCalendario()
 
-function pasarHoja(){
-    store.siguienteMes(store.fechaPivote)
+function pasarHoja(adelante){
+    if(adelante){
+        store.siguienteMes(store.fechaPivote)
+    }else{
+        store.anteriorMes(store.fechaPivote)
+    }
 }
 
 </script>
@@ -13,9 +17,9 @@ function pasarHoja(){
 <template>
     <nav class="row justify-content-center pt-5">
         <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-primary">Retroceder</button>
+            <button type="button" class="btn btn-primary" @click="pasarHoja(false)">Retroceder</button>
             <button type="button" class="btn btn-outline-primary">Nueva comida</button>
-            <button type="button" class="btn btn-primary" @click="pasarHoja()">Avanzar</button>
+            <button type="button" class="btn btn-primary" @click="pasarHoja(true)">Avanzar</button>
         </div>
     </nav>
 </template>
