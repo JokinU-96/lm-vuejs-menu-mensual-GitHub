@@ -7,7 +7,7 @@ import calendario from "@/components/Calendario.vue";
 export const useCalendario = defineStore('Comidas', () => {
     const calendario = ref(JSON.parse(localStorage.getItem('dias')) ?? datos);
 
-    const fechaPivote = new Date();
+    const fechaPivote = ref(new Date());
 
     function calcularFechaIni(fecha){
         let fechaInicio = new Date(fecha);
