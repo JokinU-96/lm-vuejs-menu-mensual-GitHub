@@ -19,7 +19,7 @@ const guardar = () => {
 
     const nuevaComida = {
         userId: 1, //Cada día podrá haber más de una comida, con un máximo de 5.
-        comidaId: fechaComida.value.toString().concat(orden.value.toString()), //La intención que tengo es encadenar el index de cada comida con su fecha.
+        comidaId: fechaComida.value.toString().replaceAll("-","").concat(orden.value.toString()), //La intención que tengo es encadenar el index de cada comida con su fecha.
         nombre: nombre.value, //Nombre del plato.
         orden: orden.value //Indica si es desayuno, almuerzo, comida, merienda o cena (del 1 al 5)
     }

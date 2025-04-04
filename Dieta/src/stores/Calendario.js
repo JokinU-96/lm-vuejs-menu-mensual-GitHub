@@ -71,6 +71,7 @@ export const useCalendario = defineStore('Comidas', () => {
 
         if (existeFecha(fechaComida, calendario)) {
             calendario.value[existeFecha(fechaComida, calendario)].comidas.push(nuevaComida)
+            calendario.value[existeFecha(fechaComida, calendario)].comidas.sort((a, b) => a.comidaId - b.comidaId);
         } else {
             const nuevoDia = {
                 "fecha": fechaComida,
