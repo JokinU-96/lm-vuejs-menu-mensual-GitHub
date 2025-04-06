@@ -4,6 +4,7 @@
         "anyo": "2025",
         "mes": "Marzo",
         "dia": "27",
+        "ocultar": true,
         "comidas": [
             {
                 "userId": 1,
@@ -18,6 +19,7 @@
         "anyo": "2025",
         "mes": "Marzo",
         "dia": "28",
+        "ocultar": true,
         "comidas": [
             {
                 "userId": 1,
@@ -38,6 +40,7 @@
         "anyo": "2025",
         "mes": "Marzo",
         "dia": "29",
+        "ocultar": true,
         "comidas": [
             {
                 "userId": 1,

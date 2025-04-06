@@ -7,7 +7,7 @@ import calendario from "@/components/Calendario.vue";
 export const useCalendario = defineStore('Comidas', () => {
     const calendario = ref(JSON.parse(localStorage.getItem('dias')) ?? datos);
 
-    const fechaPivote = ref(new Date());
+    const fechaPivote = ref(new Date())
 
     function calcularFechaIni(fecha){
         let fechaInicio = new Date(fecha);
@@ -20,7 +20,7 @@ export const useCalendario = defineStore('Comidas', () => {
 
     function calcularFechaFin(fecha){
 
-        let offset = 35 - fecha.getDate() - 1 //7 dias x 4 semanas = 35 dias por hoja del calendario
+        let offset = 35 - fecha.getDate() - 1 //7 dias x 5 semanas = 35 dias por hoja del calendario
 
         let fechaFinal = new Date(fecha);
         fechaFinal.setDate(fechaFinal.getDate() + offset)
@@ -49,15 +49,17 @@ export const useCalendario = defineStore('Comidas', () => {
         }
 
         let offset = 35 - fecha.getDate()
+        let fechaOffset = new Date(fecha)
 
         for (let i = 1; offset > i; i++) {
-            fecha.setDate(fecha.getDate() + 1)
-            if (!existeFecha(formatearFecha(fecha), calendario)) {
-                calendario.value.push(anyadirDia(fecha))
+            fechaOffset.setDate(fechaOffset.getDate() + 1)
+            if (!existeFecha(formatearFecha(fechaOffset), calendario)) {
+                calendario.value.push(anyadirDia(fechaOffset))
             }
         }
-
         //console.log(calendario.value.sort((a, b) => a.fecha - b.fecha));
+
+        mostrarUocultar(fecha)
 
         calendario.value.sort((a,b) => a.fecha - b.fecha);//ordenar elementos según la fecha.
 
@@ -78,6 +80,7 @@ export const useCalendario = defineStore('Comidas', () => {
                 "anyo": anyo,
                 "mes": mesAletras(mes),
                 "dia": dia,
+                "ocultar": true,
                 "comidas": [nuevaComida]
             }
             //console.log(nuevoDia)
@@ -108,6 +111,7 @@ export const useCalendario = defineStore('Comidas', () => {
             "anyo": anyo,
             "mes": mesAletras(mes),
             "dia": dia,
+            "ocultar": true,
             "comidas": []
         }
     }
@@ -124,7 +128,21 @@ export const useCalendario = defineStore('Comidas', () => {
         visualizarCalendario(fechaSiguiente)//pasando una nueva fecha no altero la fecha de pivote.
     }
 
-    return {agregar, visualizarCalendario, formatearFecha, calcularFechaFin, calcularFechaIni, calendario, siguienteMes, anteriorMes, fechaPivote};
+    function mostrarUocultar(fecha){
+
+        //console.log(formatearFecha(calcularFechaFin(fechaPivote)))
+
+        for (let i = 0; i < calendario.value.length; i++) {
+            if (calendario.value[i].fecha < formatearFecha(calcularFechaIni(fecha)) ||
+                calendario.value[i].fecha > formatearFecha(calcularFechaFin(fecha))) {
+                calendario.value[i].ocultar = true
+            } else {
+                calendario.value[i].ocultar = false
+            }
+        }
+    }
+
+    return {agregar, visualizarCalendario, formatearFecha, calcularFechaFin, calcularFechaIni, calendario, siguienteMes, anteriorMes, fechaPivote, mostrarUocultar};
 })
 
 function mesAletras(mes) {
