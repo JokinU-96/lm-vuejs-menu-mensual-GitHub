@@ -45,7 +45,7 @@ function limpiar() {
 
 <template>
 
-    <form class="row gy-2 gx-3 align-items-center justify-content-center mt-5">
+    <form class="row gy-2 gx-3 align-items-center justify-content-center mt-5 py-3 bg-lg-white bg-light">
         <div class="col-auto">
             <label class="visually-hidden" for="autoSizingInput">Fecha</label>
             <input type="date" class="form-control" id="autoSizingInput" format="yyyy-MM-dd" v-model="fechaComida" required>

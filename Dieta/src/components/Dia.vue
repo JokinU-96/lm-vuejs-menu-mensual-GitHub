@@ -25,12 +25,12 @@ function esHoy(dia){
 </script>
 
 <template>
-    <div :class="{'card col-2 px-0 mx-1 my-1' : true, 'd-none' : dia.ocultar}" style="width:13%;">
+    <div :class="{'card col-lg-1 px-0 mx-0 my-1' : true, 'd-none' : dia.ocultar}">
         <div :class="{'card-header text-center' : true, 'bg-dark' : esHoy(dia)}">
-            <small :class="{'text-light' : esHoy(dia), 'text-muted' : !esHoy(dia)}">{{ dia.anyo }} {{ dia.mes }}</small>
+            <small :class="{'text-light' : esHoy(dia), 'text-muted' : !esHoy(dia)}">{{ dia.mes }}</small>
+            <h5 :class="{'text-light' : esHoy(dia), 'text-muted' : !esHoy(dia)}">{{ dia.dia }}</h5>
         </div>
         <div class="card-body">
-            <h5 class="card-title text-center">{{ dia.dia }}</h5>
             <ul class="list-group">
                 <li class="list-group-item" v-for="comida in dia.comidas" :key="comida.comidaId">{{comida.nombre}}</li>
             </ul>

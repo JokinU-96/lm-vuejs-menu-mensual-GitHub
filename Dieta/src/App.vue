@@ -9,9 +9,8 @@ import Dia from "@/components/Dia.vue";
 <template class="container">
     <header class="container">
         <Navegacion />
+        <NuevaComida/>
     </header>
-
-    <NuevaComida/>
     <div class="container">
         <Calendario/>
     </div>

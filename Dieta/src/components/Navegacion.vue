@@ -15,7 +15,7 @@ function pasarHoja(adelante){
 </script>
 
 <template>
-    <nav class="row justify-content-center pt-5">
+    <nav class="row justify-content-center pt-5 d-none d-md-block">
         <div class="btn-group" role="group" aria-label="Basic example">
             <button type="button" class="btn btn-primary" @click="pasarHoja(false)">Retroceder</button>
             <button type="button" class="btn btn-outline-primary">Nueva comida</button>
